@@ -1,0 +1,43 @@
+<project name="BabaIsYou" default="compile" basedir=".">
+  
+  <!-- set global properties for this build -->
+  <property name="src" location="src"/>
+  <property name="build" location="classes"/>
+  <property name="lib" location="lib"/>
+
+  <target name="compile"
+        description="compile the source">
+    <!-- Compile the Java code from ${src} into ${build} -->
+    <javac srcdir="${src}" destdir="${build}" includeantruntime="false">
+	<compilerarg line="--enable-preview --release 15"/>
+	<classpath>
+        	<pathelement path="lib/zen5.jar"/>
+        </classpath> 
+    </javac>
+  </target>
+
+  <target name="jar">
+    <!-- Create the jar executable -->
+    <jar destfile="baba.jar" manifest="manifest.mf">
+    	<fileset dir="${build}" />
+  	<fileset dir="${src}/img"/>
+	<fileset dir="${src}/levels"/>
+	<zipfileset src="${lib}/zen5.jar"/>
+    </jar>
+  </target>
+
+  <target name="javadoc">
+    <!-- Create the javadoc -->
+    <javadoc sourcepath="${src}" destdir="docs/doc" source="15" additionalparam ="--enable-preview" classpath="${lib}/zen5.jar">
+	<fileset dir="${src}" includes="*.java" />
+	
+    </javadoc>
+  </target>
+
+  <target name="clean">
+    <!-- Delete the ${build} directory tree -->
+	<delete failonerror="false">
+    		<fileset dir="${build}" includes="*.class"/>
+  	</delete>
+  </target>
+</project>
